@@ -1,15 +1,12 @@
 package ru.ivanchin.centralbank.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ivanchin.centralbank.dto.request.AuthenticationRequest;
-import ru.ivanchin.centralbank.dto.request.UserRequest;
 import ru.ivanchin.centralbank.dto.response.UserResponse;
 import ru.ivanchin.centralbank.exception.UserAlreadyExistException;
 import ru.ivanchin.centralbank.mapper.UserMapper;
@@ -34,7 +31,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponse addUser(AuthenticationRequest authenticationRequest) throws UserAlreadyExistException {
-        if (userRepository.findByEmail(authenticationRequest.getUsername()).isPresent())
+        if (userRepository.findByEmail(authenticationRequest.getEmail()).isPresent())
             throw new UserAlreadyExistException();
 
         User user = userMapper.toEntity(authenticationRequest);
