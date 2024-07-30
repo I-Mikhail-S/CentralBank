@@ -1,8 +1,7 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
 import lombok.*;
 
 /**
@@ -17,7 +16,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "swbics_entity")
-@XmlRootElement(name = "SWBICS")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class SWBICS {
 
     @Id
@@ -25,15 +24,11 @@ public class SWBICS {
     private Long id;
 
     /** Идентификатор */
-    @XmlElement(name = "SWBICS")
+    @XmlAttribute(name = "SWBICS")
     private String SWBIC;
 
     /** Дефолтный идентификатор */
-    @XmlElement(name = "DefaultSWBIC")
+    @XmlAttribute(name = "DefaultSWBIC")
     private Integer defaultSWBIC;
-
-    @OneToOne
-    @JoinTable(name = "participant_info_entity")
-    private ParticipantInfo participantInfo;
 
 }

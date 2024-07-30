@@ -1,11 +1,11 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
+import ru.ivanchin.centralbank.adapter.LocalDateAdapter;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,7 +21,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "acc_rstr_list_entity")
-@XmlRootElement(name = "AccRstrList")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AccRstrList {
 
     @Id
@@ -29,16 +29,17 @@ public class AccRstrList {
     private Long id;
 
     /** AccRstr */
-    @XmlElement(name = "AccRstr")
+    @XmlAttribute(name = "AccRstr")
     private String AccRstr;
 
     /** Дата регистрации */
-    @XmlElement(name = "AccRstrDate")
+    @XmlAttribute(name = "AccRstrDate")
     private LocalDate AccRstrDate;
 
-    @ManyToOne
-    @JoinTable(name = "account_entity")
-    private Account account;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    public void setAccRstrDate(LocalDate accRstrDate) {
+        this.AccRstrDate = accRstrDate;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -55,8 +56,7 @@ public class AccRstrList {
         return getId() != null
                 && Objects.equals(getId(), that.getId())
                 && Objects.equals(getAccRstr(), that.getAccRstr())
-                && Objects.equals(getAccRstrDate(), that.getAccRstrDate())
-                && Objects.equals(getAccount(), that.getAccount());
+                && Objects.equals(getAccRstrDate(), that.getAccRstrDate());
     }
 
     @Override

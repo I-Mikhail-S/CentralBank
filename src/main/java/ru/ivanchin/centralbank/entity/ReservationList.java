@@ -1,8 +1,7 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "reservation_list_entity")
-@XmlRootElement(name = "RstrList")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ReservationList {
 
     @Id
@@ -23,15 +22,11 @@ public class ReservationList {
     private Long id;
 
     /** Тип резервирования */
-    @XmlElement(name = "rstr")
+    @XmlAttribute(name = "Rstr")
     private String rstr;
 
     /** Дата резервирования */
-    @XmlElement(name = "rstrDste")
+    @XmlAttribute(name = "RstrDste")
     private LocalDate rstrDste;
-
-    @OneToOne
-    @JoinTable(name = "participant_info_entity")
-    private ParticipantInfo participantInfo;
 
 }

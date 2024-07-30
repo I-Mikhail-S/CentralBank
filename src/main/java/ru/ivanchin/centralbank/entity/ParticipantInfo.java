@@ -1,8 +1,10 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
 import org.apache.catalina.authenticator.SavedRequest;
 
@@ -19,83 +21,74 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "participant_info_entity")
-@XmlRootElement(name = "ParticipantInfo")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ParticipantInfo {
 
     @Id
-    @XmlElement(name = "ParticipantInfo")
+    @Column(name = "id", nullable = false)
+    @XmlAttribute(name = "ParticipantInfo")
     private Long uid;
 
     /** Имя участника */
-    @XmlElement(name = "nameP")
+    @XmlAttribute(name = "nameP")
     private String nameP;
 
     /** Регистрационный номер */
-    @XmlElement(name = "regN")
+    @XmlAttribute(name = "regN")
     private String regN;
 
     /** Код страны */
-    @XmlElement(name = "cntrCd")
+    @XmlAttribute(name = "cntrCd")
     private String cntrCd;
 
     /** Регион */
-    @XmlElement(name = "rgn")
+    @XmlAttribute(name = "rgn")
     private SavedRequest rgn;
 
     /** Индекс */
-    @XmlElement(name = "Ind")
+    @XmlAttribute(name = "Ind")
     private Long Ind;
 
     /** Тип населённого пункта */
-    @XmlElement(name = "tnp")
+    @XmlAttribute(name = "tnp")
     private String tnp;
 
     /** Название населённого пункта */
-    @XmlElement(name = "nnp")
+    @XmlAttribute(name = "nnp")
     private String nnp;
 
     /** Адрес */
-    @XmlElement(name = "adr")
+    @XmlAttribute(name = "adr")
     private String adr;
 
     /** Родительский БИК */
-    @XmlElement(name = "prntBIC")
+    @XmlAttribute(name = "prntBIC")
     private String prntBIC;
 
     /** Дата включения в систему */
-    @XmlElement(name = "dateIn")
+    @XmlAttribute(name = "dateIn")
     private LocalDate dateIn;
 
     /** Тип участника */
-    @XmlElement(name = "ptType")
+    @XmlAttribute(name = "ptType")
     private Integer ptType;
 
     /** Предоставляемые услуги */
-    @XmlElement(name = "srvcs")
+    @XmlAttribute(name = "srvcs")
     private Integer srvcs;
 
     /** Тип обмена */
-    @XmlElement(name = "xchType")
+    @XmlAttribute(name = "xchType")
     private Integer xchType;
 
     /** Статус участника */
-    @XmlElement(name = "participantStatus")
+    @XmlAttribute(name = "participantStatus")
     private String participantStatus;
 
     /** Лист резервирования */
     @OneToOne
-    @JoinTable(name = "reservation_list_entity")
+    @JoinColumn(name = "reservation_list_entity")
     @XmlElement(name = "participantStatus")
     private ReservationList reservationList;
-
-    /** Общество всемирных межбанковских финансовых каналов связи */
-    @OneToOne
-    @JoinTable(name = "swbics_entity")
-    @XmlElement(name = "SWBICS")
-    private SWBICS swbics;
-
-    @OneToOne
-    @JoinTable(name = "bank_entity")
-    private Bank bank;
 
 }

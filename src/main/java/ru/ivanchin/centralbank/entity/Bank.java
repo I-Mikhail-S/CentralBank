@@ -1,12 +1,14 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,22 +20,30 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "bank_entity")
-@XmlRootElement(name = "BICDirectoryEntry")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Bank {
 
     @Id
+    @Column(name = "bic", nullable = false)
     @XmlAttribute(name = "BIC")
     private Long BIC;
 
     @OneToOne
-    @JoinTable(name = "participant_info_entity")
+    @JoinColumn(name = "participant_info_id")
     @XmlElement(name = "ParticipantInfo")
     private ParticipantInfo participantInfo;
 
-    @OneToMany
-    @JoinTable(name = "account_entity")
+    /** Общество всемирных межбанковских финансовых каналов связи */
+    @OneToOne
+    @JoinTable(name = "swbics_entity")
+    @XmlElement(name = "SWBICS")
+    private SWBICS swbics;
+
+    /** Аккаунты банка в системе учёта зредитных организаций */
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bank_account_id")
     @XmlElement(name = "Accounts")
-    private Set<Account> accounts;
+    private Set<Account> accounts = new HashSet<>();
 
     @Override
     public final boolean equals(Object o) {

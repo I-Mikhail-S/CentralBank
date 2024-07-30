@@ -1,6 +1,9 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -19,37 +22,40 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "account_entity")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    /** номер счёта */
+    /** Номер счёта */
+    @XmlAttribute(name = "Account")
     private String account;
 
     /** Тип счёта */
+    @XmlAttribute(name = "RegulationAccountType")
     private String RegistrationAccountType;
 
     /** Контрольный ключ */
+    @XmlAttribute(name = "CK")
     private Integer ck;
 
     /** Условный номер Банка России */
+    @XmlAttribute(name = "AccountCBRBIC")
     private Long accountCBRBIC;
 
     /** Дата открытия */
+    @XmlAttribute(name = "DateIn")
     private LocalDate dateIn;
 
     /** Статус счёта */
+    @XmlAttribute(name = "AccountStatus")
     private String AccountStatus;
 
     @OneToMany
-    @JoinTable(name = "acc_rstr_list_entity")
+    @JoinColumn(name = "acc_rstr_list_id")
     private Set<AccRstrList> accRstrLists;
-
-    @ManyToOne
-    @JoinTable(name= "bank_entity")
-    private Bank bank;
 
     @Override
     public final boolean equals(Object o) {
