@@ -1,14 +1,14 @@
 package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.*;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
+import ru.ivanchin.centralbank.workWithXml.adapter.LocalDateAdapter;
+import ru.ivanchin.centralbank.workWithXml.adapter.LocalDateTimeAdapter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +20,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "central_bank_entity")
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 @XmlRootElement(name = "ED807")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CentralBank {
@@ -29,17 +28,50 @@ public class CentralBank {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @XmlAttribute(name = "xmlns")
+    private String xmlns;
+
+    @XmlAttribute(name = "EDNo")
+    private Long EDNo;
+
+    @Temporal(TemporalType.DATE)
+    @XmlAttribute(name = "EDDate")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    private LocalDate EDDate;
+
+    @XmlAttribute(name = "EDAuthor")
+    private Long EDAuthor;
+
+    @XmlAttribute(name = "CreationReason")
+    private String CreationReason;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @XmlAttribute(name = "CreationDateTime")
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+    private LocalDateTime CreationDateTime;
+
+    @XmlAttribute(name = "InfoTypeCode")
+    private String InfoTypeCode;
+
+    @Temporal(TemporalType.DATE)
+    @XmlAttribute(name = "BusinessDay")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    private LocalDate BusinessDay;
+
+    @XmlAttribute(name = "DirectoryVersion")
+    private Integer DirectoryVersion;
+
     @OneToMany
-    @JoinColumn(name = "bank_entity_bic")
+    @JoinColumn(name = "BIC_directory_entry_entity_id")
     @XmlElement(name = "BICDirectoryEntry")
-    private Set<Bank> listBanks;
+    private Set<BICDirectoryEntry> listBICDirectoryEntries;
 
 
-    public void addBank(Bank bank) {
-        if (listBanks == null)
-            listBanks = new HashSet<>() {{ add(bank); }};
+    public void addBank(BICDirectoryEntry BICDirectoryEntry) {
+        if (listBICDirectoryEntries == null)
+            listBICDirectoryEntries = new HashSet<>() {{ add(BICDirectoryEntry); }};
         else
-            listBanks.add(bank);
+            listBICDirectoryEntries.add(BICDirectoryEntry);
     }
 
 }

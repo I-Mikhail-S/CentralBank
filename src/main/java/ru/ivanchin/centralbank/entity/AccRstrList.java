@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import ru.ivanchin.centralbank.adapter.LocalDateAdapter;
+import ru.ivanchin.centralbank.workWithXml.adapter.LocalDateAdapter;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -33,13 +33,10 @@ public class AccRstrList {
     private String AccRstr;
 
     /** Дата регистрации */
+    @Temporal(TemporalType.DATE)
     @XmlAttribute(name = "AccRstrDate")
-    private LocalDate AccRstrDate;
-
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    public void setAccRstrDate(LocalDate accRstrDate) {
-        this.AccRstrDate = accRstrDate;
-    }
+    private LocalDate AccRstrDate;
 
     @Override
     public boolean equals(Object o) {

@@ -1,4 +1,4 @@
-package ru.ivanchin.centralbank.adapter;
+package ru.ivanchin.centralbank.workWithXml.adapter;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
@@ -9,6 +9,7 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     private static final ThreadLocal<DateTimeFormatter> dateFormat =
             ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
     @Override
     public LocalDate unmarshal(String s) throws Exception {
         return LocalDate.from(dateFormat.get().parse(s));

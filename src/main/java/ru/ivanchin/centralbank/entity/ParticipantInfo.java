@@ -5,8 +5,10 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.*;
 import org.apache.catalina.authenticator.SavedRequest;
+import ru.ivanchin.centralbank.workWithXml.adapter.LocalDateAdapter;
 
 import java.time.LocalDate;
 
@@ -66,7 +68,9 @@ public class ParticipantInfo {
     private String prntBIC;
 
     /** Дата включения в систему */
+    @Temporal(TemporalType.DATE)
     @XmlAttribute(name = "dateIn")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate dateIn;
 
     /** Тип участника */
@@ -87,8 +91,8 @@ public class ParticipantInfo {
 
     /** Лист резервирования */
     @OneToOne
-    @JoinColumn(name = "reservation_list_entity")
-    @XmlElement(name = "participantStatus")
-    private ReservationList reservationList;
+    @JoinColumn(name = "rstr_list_entity")
+    @XmlElement(name = "RstrList")
+    private RstrList rstrList;
 
 }

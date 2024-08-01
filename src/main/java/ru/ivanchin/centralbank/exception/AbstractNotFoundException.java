@@ -2,11 +2,11 @@ package ru.ivanchin.centralbank.exception;
 
 import ru.ivanchin.centralbank.dto.response.ErrorResponse;
 
-public abstract class AbstractCustomException extends Exception {
-    public AbstractCustomException(ErrorResponse errorResponse) {
+public abstract class AbstractNotFoundException extends Exception {
+    public AbstractNotFoundException(ErrorResponse errorResponse) {
         super(errorResponse.getMessage());
     }
-    public AbstractCustomException() {
+    public AbstractNotFoundException() {
         super();
     }
 }

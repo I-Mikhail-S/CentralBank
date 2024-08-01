@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import ru.ivanchin.centralbank.workWithXml.adapter.LocalDateAdapter;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -46,7 +48,9 @@ public class Account {
     private Long accountCBRBIC;
 
     /** Дата открытия */
+    @Temporal(TemporalType.DATE)
     @XmlAttribute(name = "DateIn")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate dateIn;
 
     /** Статус счёта */

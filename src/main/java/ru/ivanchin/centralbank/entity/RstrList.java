@@ -2,7 +2,9 @@ package ru.ivanchin.centralbank.entity;
 
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.*;
+import ru.ivanchin.centralbank.workWithXml.adapter.LocalDateAdapter;
 
 import java.time.LocalDate;
 
@@ -13,9 +15,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "reservation_list_entity")
+@Table(name = "rstr_list_entity")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ReservationList {
+public class RstrList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +28,9 @@ public class ReservationList {
     private String rstr;
 
     /** Дата резервирования */
+    @Temporal(TemporalType.DATE)
     @XmlAttribute(name = "RstrDste")
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate rstrDste;
 
 }

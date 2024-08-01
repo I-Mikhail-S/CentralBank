@@ -19,9 +19,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "bank_entity")
+@Table(name = "BIC_directory_entry_entity")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Bank {
+public class BICDirectoryEntry {
 
     @Id
     @Column(name = "bic", nullable = false)
@@ -56,11 +56,11 @@ public class Bank {
                 ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
                 : this.getClass();
         if (oEffectiveClass != thisEffectiveClass) return false;
-        Bank bank = (Bank) o;
+        BICDirectoryEntry BICDirectoryEntry = (BICDirectoryEntry) o;
         return getBIC() != null
-                && Objects.equals(getBIC(), bank.getBIC())
-                && Objects.equals(getParticipantInfo(), bank.getParticipantInfo())
-                && Objects.equals(getAccounts(), bank.getAccounts());
+                && Objects.equals(getBIC(), BICDirectoryEntry.getBIC())
+                && Objects.equals(getParticipantInfo(), BICDirectoryEntry.getParticipantInfo())
+                && Objects.equals(getAccounts(), BICDirectoryEntry.getAccounts());
     }
 
     @Override
